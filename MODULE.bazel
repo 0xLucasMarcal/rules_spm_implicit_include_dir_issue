@@ -1,0 +1,31 @@
+"""
+A Bazel module is a Bazel project that can have multiple versions, each of which publishes
+metadata about other modules that it depends on.
+This is analogous to familiar concepts in other dependency management systems, such as a
+Maven artifact, an npm package, a Go module, or a Cargo crate.
+"""
+
+bazel_dep(name = "rules_swift", version = "2.3.1", repo_name = "build_bazel_rules_swift")
+bazel_dep(name = "rules_apple", version = "3.16.1", repo_name = "build_bazel_rules_apple")
+bazel_dep(name = "apple_support", version = "1.17.1", repo_name = "build_bazel_apple_support")
+
+non_module_deps = use_extension("@build_bazel_rules_swift//swift:extensions.bzl", "non_module_deps")
+
+bazel_dep(name = "rules_swift_package_manager", version = "0.43.0")
+bazel_dep(name = "gazelle", version = "0.40.0")
+bazel_dep(name = "rules_xcodeproj", version = "2.8.1")
+
+# swift_deps START
+swift_deps = use_extension(
+    "@rules_swift_package_manager//:extensions.bzl",
+    "swift_deps",
+)
+swift_deps.from_package(
+    swift = "//:Package.swift",
+)
+use_repo(
+    swift_deps,
+    "swift_package",
+    "swiftpkg_myclanglibrary",
+)
+# swift_deps END

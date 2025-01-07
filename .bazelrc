@@ -1,0 +1,23 @@
+### Bazel features
+common --enable_bzlmod
+
+common --xcode_version=16.0
+
+### Swift
+common --features=swift.use_global_module_cache
+
+### Apple
+common --features=apple.skip_codesign_simulator_bundles
+common --ios_simulator_device="iPhone 16 Pro" --ios_simulator_version="18.0"
+
+### Disable macOS Sandboxing
+common --noworker_sandboxing
+common --spawn_strategy=remote,worker,local
+
+### General
+common --jobs=HOST_CPUS*2
+common --noexperimental_check_output_files
+
+### Build
+build --compilation_mode=fastbuild
+build --define=apple.experimental.tree_artifact_outputs=1
