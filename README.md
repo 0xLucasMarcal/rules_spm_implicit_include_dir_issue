@@ -62,4 +62,26 @@ The solution is to add the include dir, if it exists, to the `public_includes` l
 This is the correct behavior according to the Apple docs:
 https://developer.apple.com/documentation/packagedescription/target/publicheaderspath
 
+To test the solution, you can use the following git_override:
+
+(Remember to remove the publicHeadersPath from the `Package.swift` file before running the build)
+
+```
+bazel_dep(name = "rules_swift_package_manager", version = "0.43.0")
+git_override(
+    module_name = "rules_swift_package_manager",
+    remote = "https://github.com/0xLucasMarcal/rules_swift_package_manager.git",
+    commit = "a20242c944fb899fdb037027080f33651c18b487",
+)
+```
+
+and run the following command:
+
+```
+bazel build //MyApp:MyApp
+```
+
+The build will succeed.
+
+
 
